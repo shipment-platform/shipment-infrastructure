@@ -1,0 +1,17 @@
+# --- IntelliJ IDEA internal files ---
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+.snapshots/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+

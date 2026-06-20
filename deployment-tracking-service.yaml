@@ -19,9 +19,16 @@ spec:
           image: danijelsudimac/tracking-service:v1
           ports:
             - containerPort: 8080
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: "prod-k8s"
+              value: "k8s"
             - name: SPRING_DATA_REDIS_PORT
               value: "6379"
             - name: SERVER_ADDRESS

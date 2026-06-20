@@ -19,6 +19,13 @@ spec:
           image: danijelsudimac/notification-service:v1
           ports:
             - containerPort: 8080
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "prod"

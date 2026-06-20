@@ -1,61 +1,46 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: shipment-service-deployment
+  name: tracking-service-deployment
   labels:
-    app: shipment-service
+    app: tracking-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: shipment-service
+      app: tracking-service
   template:
     metadata:
       labels:
-        app: shipment-service
+        app: tracking-service
     spec:
       containers:
-        - name: shipment-container
-          image: danijelsudimac/shipment-service:v2
+        - name: tracking-container
+          image: danijelsudimac/tracking-service:v1
           ports:
             - containerPort: 8080
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: "prod"
+              value: "prod-k8s"
             - name: SPRING_DATA_REDIS_PORT
               value: "6379"
             - name: SERVER_ADDRESS
               value: "0.0.0.0"
-            - name: SPRING_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_URL_2
               valueFrom:
                 secretKeyRef:
                   name: shipment-platform-secrets
-                  key: SPRING_DATASOURCE_URL
-            - name: SPRING_DATASOURCE_USERNAME
+                  key: SPRING_DATASOURCE_URL_2
+            - name: SPRING_DATASOURCE_USERNAME_2
               valueFrom:
                 secretKeyRef:
                   name: shipment-platform-secrets
-                  key: SPRING_DATASOURCE_USERNAME
-            - name: SPRING_DATASOURCE_PASSWORD
+                  key: SPRING_DATASOURCE_USERNAME_2
+            - name: SPRING_DATASOURCE_PASSWORD_2
               valueFrom:
                 secretKeyRef:
                   name: shipment-platform-secrets
-                  key: SPRING_DATASOURCE_PASSWORD
-            - name: SPRING_DATA_REDIS_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: shipment-platform-secrets
-                  key: SPRING_DATA_REDIS_HOST
-            - name: SPRING_DATA_REDIS_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: shipment-platform-secrets
-                  key: SPRING_DATA_REDIS_USERNAME
-            - name: SPRING_DATA_REDIS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: shipment-platform-secrets
-                  key: SPRING_DATA_REDIS_PASSWORD
+                  key: SPRING_DATASOURCE_PASSWORD_2
             - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
               valueFrom:
                 secretKeyRef:
@@ -86,20 +71,15 @@ spec:
                 secretKeyRef:
                   name: shipment-platform-secrets
                   key: SPRING_SCHEMA_REGISTRY_SECRET
-            - name: SPRING_DATA_REDIS_URL
-              valueFrom:
-                secretKeyRef:
-                  name: shipment-platform-secrets
-                  key: SPRING_DATA_REDIS_URL
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: shipment-service
+  name: tracking-service
 spec:
   type: ClusterIP
   selector:
-    app: shipment-service
+    app: tracking-service
   ports:
     - protocol: TCP
       port: 80
